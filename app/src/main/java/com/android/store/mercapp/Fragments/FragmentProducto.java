@@ -32,14 +32,7 @@ import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentProducto.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link FragmentProducto#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class FragmentProducto extends  Fragment   {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -52,7 +45,7 @@ public class FragmentProducto extends  Fragment   {
     private FloatingActionButton fabAddProducts;
     FirebaseStorage storage;
     Productos productos;
-    String idstore;
+
 
     StorageReference storageRef;
 
@@ -71,7 +64,7 @@ public class FragmentProducto extends  Fragment   {
         System.out.println("=====================");
         System.out.println(idTienda);
         System.out.println("=====================");
-        ConsultarProductosEnTiempoReal();
+        ConsultarProductosEnTiempoReal(idTienda);
     }
 
 
@@ -99,19 +92,15 @@ public class FragmentProducto extends  Fragment   {
         Toast.makeText(getActivity(), " el id es " +idstore, Toast.LENGTH_SHORT).show();
     }*/
 
-    private void ConsultarProductosEnTiempoReal() {
+    private void ConsultarProductosEnTiempoReal(String id) {
 
 
         FirebaseFirestore dtbs = FirebaseFirestore.getInstance();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-
-
-
+        System.out.println("id==>" +id);
         CollectionReference subref = dtbs
                 .collection("Tiendas")
-                .document("BJmoRkUuuJl2WLy9t31f").collection("Productos");
+                .document(id).collection("Productos");
 
         subref.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

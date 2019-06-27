@@ -166,7 +166,9 @@ public class FragmentStorage extends Fragment implements FragmentProducto.OnFrag
                 for (QueryDocumentSnapshot documentSnapshot : snapshots){
                     Storage storage = documentSnapshot.toObject(Storage.class);
                     ListaStorage.add(storage);
+                    //System.out.printf("url imagen " + ListaStorage.get(ListaStorage.indexOf(storage)).getUrlimage());
                 }
+
                 Renderlist();
 
             }

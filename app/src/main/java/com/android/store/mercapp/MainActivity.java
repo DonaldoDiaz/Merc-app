@@ -7,7 +7,6 @@ import android.os.Bundle;
 import com.android.store.mercapp.Entidades.Storage;
 import com.android.store.mercapp.Fragments.FragmentProducto;
 import com.android.store.mercapp.Fragments.FragmentStorage;
-import com.android.store.mercapp.Interfaces.CommunicationInterface;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.facebook.AccessToken;
@@ -233,9 +232,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void RegisterStore(String Nombre, String Direccion, String Estado, String id) {
+    public void RegisterStore(String Nombre, String Direccion, String Estado, String id, String link) {
                 Toast.makeText(getApplicationContext(),"DATOS TIENDA : " + "NOMBRE :" +Nombre+ "DIRECCION" +Direccion + "ESTADO" + Estado,Toast.LENGTH_SHORT).show();
-        final Storage storage = new Storage(Nombre,Direccion,Estado,id);
+        final Storage storage = new Storage(Nombre,Direccion,Estado,id, link);
         FirebaseFirestore.getInstance().collection("Tiendas")
                 .document(id).set(storage).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

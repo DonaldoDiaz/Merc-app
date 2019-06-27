@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.store.mercapp.Entidades.Storage;
 import com.android.store.mercapp.R;
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,15 @@ public class StorageAdapter extends RecyclerView.Adapter<StorageAdapter.ViewHold
         if (ListStorage.get(position).getEstado().equals("Cerrado")){
             holder.circle.setImageResource(R.drawable.ic_circlered);
         }
+        if (ListStorage.get(position).getUrlimage()!=null){
+            Picasso.get()
+                    .load(ListStorage.get(position).getUrlimage().replace("http://", "https://"))
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(holder.imagetienda);
+
+        }
+
     }
 
     @Override
@@ -60,15 +71,21 @@ public class StorageAdapter extends RecyclerView.Adapter<StorageAdapter.ViewHold
 
     public class ViewHolderDatos extends RecyclerView.ViewHolder {
         TextView NombreS,DireccionS,EstadoS;
-        ImageView circle;
+        ImageView circle,imagetienda;
 
         public ViewHolderDatos(@NonNull View itemView) {
             super(itemView);
-            NombreS = (TextView) itemView.findViewById(R.id.txtStorageNombre);
-            DireccionS = (TextView) itemView.findViewById(R.id.txtStorageDireccion);
-            EstadoS = (TextView) itemView.findViewById(R.id.txtStorageEstado);
-            circle = (ImageView) itemView.findViewById(R.id.imgCircle);
+            NombreS = itemView.findViewById(R.id.txtStorageNombre);
+            DireccionS = itemView.findViewById(R.id.txtStorageDireccion);
+            EstadoS = itemView.findViewById(R.id.txtStorageEstado);
+            circle = itemView.findViewById(R.id.imgCircle);
+            imagetienda = itemView.findViewById(R.id.imgFotoStorage);
 
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 }
