@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: ru.semper-viventem.backdrop:backdrop:0.1.7@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/27f36fbcac30acb390522f4123049852/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/27f36fbcac30acb390522f4123049852/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/ru.semper-viventem.backdrop/backdrop/0.1.7/16c3aa559349fd3af89bfdf0729dce839d555233/backdrop-0.1.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

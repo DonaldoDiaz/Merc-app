@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "683217846496",
+    "firebase_url": "https://mercapp-6f2ad.firebaseio.com",
+    "project_id": "mercapp-6f2ad",
+    "storage_bucket": "mercapp-6f2ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683217846496:android:be701896dac38ebc",
+        "android_client_info": {
+          "package_name": "com.android.store.mercapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683217846496-lfmt3fjhfjt1o1urlflqenrb5r027adr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.store.mercapp",
+            "certificate_hash": "6ec4d39834029a5d45fa18bcaf6988ffd98ebec0"
+          }
+        },
+        {
+          "client_id": "683217846496-3l5cmsdrgms59kl6elpn32ppq1v81l59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo8QXCTiEB13_70BAk-kLO86X3brtM2bU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "683217846496-3l5cmsdrgms59kl6elpn32ppq1v81l59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
