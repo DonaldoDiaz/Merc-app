@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.android.store.mercapp.Entidades.Productos;
 import com.android.store.mercapp.Entidades.Storage;
 import com.android.store.mercapp.Fragments.FragmentProducto;
 import com.android.store.mercapp.Fragments.FragmentStorage;
@@ -46,7 +47,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FragmentStorage.OnFragmentInteractionListener,
         FragmentProducto.OnFragmentInteractionListener,
-        ExampleDialog.DialogListener{
+        ExampleDialog.DialogListener,ProductDialog.DialogListenerP{
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
     public int optionSelected=1;
     Fragment listastore = new FragmentStorage();
     FragmentProducto productoF = new FragmentProducto();
+    public static String idtienda;
 
 
 
@@ -63,6 +65,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -79,7 +83,6 @@ public class MainActivity extends AppCompatActivity
                         openDialog();
                         break;
                     case 2:
-                        Toast.makeText(getApplicationContext(), "PRODUCTOS", Toast.LENGTH_SHORT).show();
 
                         break;
                     case 3:
@@ -95,9 +98,13 @@ public class MainActivity extends AppCompatActivity
                         break;
                 }
             }
+
+
         });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -114,6 +121,10 @@ public class MainActivity extends AppCompatActivity
         UpdateNavHeader();
 
 
+    }
+    private void openDialogProductos() {
+        ProductDialog productDialog = new ProductDialog();
+        productDialog.show(getSupportFragmentManager(), "dialog");
     }
 
     private void openDialog() {
@@ -140,6 +151,7 @@ public class MainActivity extends AppCompatActivity
                 super.onBackPressed();
             }else{
                 getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor,listastore, "MAIN_FRAGMENT").commit();
+                optionSelected=1;
             }
             //MAIN_FRAGMENT
             //super.onBackPressed();
@@ -178,6 +190,10 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.action_add_products ){
+            Toast.makeText(getApplicationContext(), "PRODUCTOS", Toast.LENGTH_SHORT).show();
+            openDialogProductos();
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -194,7 +210,8 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_store) {
             fragment =new FragmentStorage();
             FragmentSelected=true;
-        } else if (id == R.id.nav_gallery) {
+            optionSelected=1;
+        } else if (id == R.id.nav_product) {
 
         } else if (id == R.id.nav_slideshow) {
 
@@ -243,10 +260,35 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
+    }
+    // funcion para setear el valor de idtiendaP en la variable global idtienda ; Esta función es llamada en el FragmentProducto
+    public void setIdtiendaAproducto(String idtiendaP){
+        idtienda = idtiendaP;
     }
 
 
+
+
+    @Override
+    public void RegisterProducts(String nombreProducto, int PrecioProducto, String idproducto, String idImage) {
+
+        final Productos productos = new Productos(PrecioProducto,nombreProducto,idproducto,idImage);
+        if (idtienda!=null) {
+            FirebaseFirestore.getInstance()
+                    .collection("Tiendas")
+                    .document(idtienda)
+                    .collection("Productos")
+                    .document()
+                    .set(productos).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    Toast.makeText(getApplicationContext(), "Producto registrado existosamente", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+
+        System.out.println("EL ID DE LA TIENDA ES "+idtienda);
+    }
     @Override
     public void onFragmentInteraction(Uri uri) {
 

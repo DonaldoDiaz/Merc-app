@@ -3,11 +3,13 @@ package com.android.store.mercapp.Fragments;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -15,9 +17,13 @@ import android.widget.Toast;
 import com.android.store.mercapp.Adapters.ProductosAdapter;
 import com.android.store.mercapp.Entidades.Productos;
 import com.android.store.mercapp.Interfaces.CommunicationInterface;
+import com.android.store.mercapp.MainActivity;
 import com.android.store.mercapp.ProductDialog;
 import com.android.store.mercapp.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,8 +38,10 @@ import java.util.ArrayList;
 
 import javax.annotation.Nullable;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 
-public class FragmentProducto extends  Fragment   {
+
+public class FragmentProducto extends  Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -45,7 +53,7 @@ public class FragmentProducto extends  Fragment   {
     private FloatingActionButton fabAddProducts;
     FirebaseStorage storage;
     Productos productos;
-
+    String idTienda;
 
     StorageReference storageRef;
 
@@ -53,19 +61,38 @@ public class FragmentProducto extends  Fragment   {
     private View vista;
     public RecyclerView recyclerP;
     public ArrayList<Productos> productosArrayList;
-
+    MainActivity activity;
     public FragmentProducto() {
+    }
+
+    public static FragmentProducto newInstance(String param1, String param2){
+        FragmentProducto fragmentProducto = new FragmentProducto();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragmentProducto.setArguments(args);
+        return fragmentProducto;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String idTienda = getArguments().getString("idTienda");
-        System.out.println("=====================");
-        System.out.println(idTienda);
-        System.out.println("=====================");
-        ConsultarProductosEnTiempoReal(idTienda);
+        if (getArguments()!=null){
+            idTienda = getArguments().getString("idTienda");
+            System.out.println("=====================");
+            System.out.println(idTienda);
+            System.out.println("=====================");
+            ConsultarProductosEnTiempoReal(idTienda);
+
+            //llamo a la funcion setIdtiendaAproducto() y le paso el parametro idTienda
+            activity = new MainActivity();
+            activity.setIdtiendaAproducto(idTienda);
+
+        }
+
+
     }
+
 
 
     @Override
@@ -87,17 +114,13 @@ public class FragmentProducto extends  Fragment   {
     }
 
 
-  /*  public void recibirId(String IdRecibido){
-        idstore=IdRecibido;
-        Toast.makeText(getActivity(), " el id es " +idstore, Toast.LENGTH_SHORT).show();
-    }*/
 
     private void ConsultarProductosEnTiempoReal(String id) {
 
 
         FirebaseFirestore dtbs = FirebaseFirestore.getInstance();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
-        System.out.println("id==>" +id);
+        //System.out.println("id==>" +id);
         CollectionReference subref = dtbs
                 .collection("Tiendas")
                 .document(id).collection("Productos");
@@ -127,19 +150,6 @@ public class FragmentProducto extends  Fragment   {
         }
     }
 
-
-
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

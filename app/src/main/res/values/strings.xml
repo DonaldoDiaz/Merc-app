@@ -34,4 +34,6 @@
     <string name="buscar_productos">Buscar productos</string>
     <string name="nombre_productos">Nombre Productos</string>
     <string name="tiendas">Tiendas</string>
+    <string name="menu_producos">Productos</string>
+    <string name="agregar_productos">Agregar productos</string>
 </resources>

@@ -3,6 +3,7 @@ package com.android.store.mercapp.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.store.mercapp.Entidades.Productos;
 import com.android.store.mercapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -35,6 +37,15 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.View
     public void onBindViewHolder(@NonNull ProductosAdapter.ViewHolderDatosProductos holder, int position) {
         holder.txtNombreP.setText(ListProductos.get(position).getNombre());
         holder.txtPrecioP.setText(String.valueOf(ListProductos.get(position).getPrecio()));
+        if (ListProductos.get(position).getIdImageProducto()!=null){
+
+            Picasso.get()
+                    .load(ListProductos.get(position).getIdImageProducto().replace("http://", "https://"))
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(holder.imageProducto);
+
+        }
     }
 
     @Override
@@ -47,11 +58,13 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.View
 
     public class ViewHolderDatosProductos extends RecyclerView.ViewHolder {
         TextView txtNombreP,txtPrecioP;
+        ImageView imageProducto;
 
         public ViewHolderDatosProductos(@NonNull View itemView) {
             super(itemView);
             txtNombreP = (TextView) itemView.findViewById(R.id.textNombreProductos);
             txtPrecioP = (TextView) itemView.findViewById(R.id.textPrecioProductos);
+            imageProducto = itemView.findViewById(R.id.imageViewProducto);
         }
     }
 }

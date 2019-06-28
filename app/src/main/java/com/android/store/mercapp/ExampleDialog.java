@@ -2,7 +2,9 @@ package com.android.store.mercapp;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -33,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -70,7 +73,8 @@ public class ExampleDialog  extends AppCompatDialogFragment  {
         View view = inflater.inflate(R.layout.layout_dialog, null);
         swestado = view.findViewById(R.id.switch2);
         btnSubirImagen = view.findViewById(R.id.BtnUploadImage);
-        photostore = view.findViewById(R.id.imgFotoStorage);
+        photostore = view.findViewById(R.id.imagePreview);
+
         btnSubirImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -79,6 +83,7 @@ public class ExampleDialog  extends AppCompatDialogFragment  {
                 startActivityForResult(intent,GALLERY_INTENT);
             }
         });
+
         swestado.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -148,10 +153,11 @@ public class ExampleDialog  extends AppCompatDialogFragment  {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri uri = data.getData();
+            Uri image = data.getData();
 
-            final StorageReference filePath = mStorage.child("Fotos_Tiendas").child(uri.getLastPathSegment());
-            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+            final StorageReference filePath = mStorage.child("Fotos_Tiendas").child(image.getLastPathSegment());
+            filePath.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     filePath.getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
@@ -164,15 +170,13 @@ public class ExampleDialog  extends AppCompatDialogFragment  {
 
                 }
             });
-           /* try {
-                //Getting the Bitmap from Gallery
-              *//*  Bitmap bitmap = MediaStore.Images.Media.getBitmap(getConte, filePath);
-                rbitmap = getResizedBitmap(bitmap,250);//Setting the Bitmap to ImageView
-                userImage = getStringImage(rbitmap);
-                imageViewUserImage.setImageBitmap(rbitmap);*//*
-            } catch (IOException e) {
-                e.printStackTrace();
-            }*/
+
+           Picasso.get()
+                    .load(image)
+                    .placeholder(R.drawable.tienda)
+                    .error(R.drawable.ic_launcher_foreground)
+                    .into(photostore);
+
         }
     }
 

@@ -17,6 +17,8 @@ import com.android.store.mercapp.Adapters.StorageAdapter;
 import com.android.store.mercapp.Entidades.Productos;
 import com.android.store.mercapp.Entidades.Storage;
 import com.android.store.mercapp.Interfaces.CommunicationInterface;
+import com.android.store.mercapp.MainActivity;
+import com.android.store.mercapp.ProductDialog;
 import com.android.store.mercapp.R;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -128,7 +130,7 @@ public class FragmentStorage extends Fragment implements FragmentProducto.OnFrag
         storageview.setHasFixedSize(true);
         LinearLayoutManager layout = new LinearLayoutManager(getContext());
         layout.setOrientation(LinearLayoutManager.HORIZONTAL);
-        StorageAdapter Adapter = new StorageAdapter(ListaStorage);
+        final StorageAdapter Adapter = new StorageAdapter(ListaStorage);
         storageview.setLayoutManager(new LinearLayoutManager(getContext()));
         storageview.setAdapter(Adapter);
 
@@ -136,14 +138,17 @@ public class FragmentStorage extends Fragment implements FragmentProducto.OnFrag
             @Override
             public void onClick(View view) {
 
+
                        String sendId=ListaStorage.get(storageview.getChildAdapterPosition(view)).getId();
-                       //Toast.makeText(getContext(), "Usted selecciono la tienda con id "+ sendId, Toast.LENGTH_SHORT).show();
-                       //listener.SendIdStore(sendId);
                        Fragment vistaproducto = new FragmentProducto();
+
                        Bundle bundle = new Bundle();
                        bundle.putString("idTienda", sendId);
                        vistaproducto.setArguments(bundle);
+
                        getFragmentManager().beginTransaction().replace(R.id.Contenedor,vistaproducto, "PRODUCT_FRAGMENT").commit();
+
+
             }
         });
 
@@ -166,7 +171,7 @@ public class FragmentStorage extends Fragment implements FragmentProducto.OnFrag
                 for (QueryDocumentSnapshot documentSnapshot : snapshots){
                     Storage storage = documentSnapshot.toObject(Storage.class);
                     ListaStorage.add(storage);
-                    //System.out.printf("url imagen " + ListaStorage.get(ListaStorage.indexOf(storage)).getUrlimage());
+
                 }
 
                 Renderlist();

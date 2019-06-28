@@ -11,7 +11,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="360dp">
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -47,7 +46,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/textView"
-            app:layout_constraintTop_toBottomOf="@+id/imageView4"
+            app:layout_constraintTop_toBottomOf="@+id/imagePreview"
             app:layout_constraintVertical_bias="0.0">
 
             <EditText
@@ -115,7 +114,7 @@
             app:layout_constraintTop_toTopOf="@+id/switch2" />
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/imagePreview"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="8dp"
@@ -135,13 +134,14 @@
             style="@style/Widget.Design.FloatingActionButton"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-            app:layout_constraintEnd_toEndOf="@+id/imageView4"
+            app:layout_constraintBottom_toBottomOf="@+id/imagePreview"
+            app:layout_constraintEnd_toEndOf="@+id/imagePreview"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="@+id/imageView4"
+            app:layout_constraintStart_toStartOf="@+id/imagePreview"
+            app:layout_constraintTop_toTopOf="@+id/imagePreview"
             app:layout_constraintVertical_bias="1.0"
             app:srcCompat="@drawable/ic_menu_gallery" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
