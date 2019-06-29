@@ -15,9 +15,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ViewHolderDatosProductos>  {
+public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.ViewHolderDatosProductos> implements View.OnClickListener {
 
     public ArrayList<Productos> ListProductos;
+    private View.OnClickListener listenerp;
 
 
     public ProductosAdapter(ArrayList<Productos> listProductos) {
@@ -30,6 +31,7 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.View
     @Override
     public ProductosAdapter.ViewHolderDatosProductos onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemview = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_producto,parent,false);
+        itemview.setOnClickListener(this);
         return  new ViewHolderDatosProductos(itemview);
     }
 
@@ -53,7 +55,16 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.View
         return ListProductos.size();
     }
 
+    public void setOnClickListenerP(View.OnClickListener listener){
+        this.listenerp = listener;
+    }
 
+    @Override
+    public void onClick(View view) {
+        if (listenerp !=null){
+            listenerp.onClick(view);
+        }
+    }
 
 
     public class ViewHolderDatosProductos extends RecyclerView.ViewHolder {
@@ -66,5 +77,10 @@ public class ProductosAdapter extends RecyclerView.Adapter<ProductosAdapter.View
             txtPrecioP = (TextView) itemView.findViewById(R.id.textPrecioProductos);
             imageProducto = itemView.findViewById(R.id.imageViewProducto);
         }
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
     }
 }

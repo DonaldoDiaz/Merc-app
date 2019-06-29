@@ -64,14 +64,8 @@ public class FragmentStorage extends Fragment implements FragmentProducto.OnFrag
     View vista;
     private OnFragmentInteractionListener mListener;
     RecyclerView storageview;
-    RecyclerView productosviewespejo;
-    // actividad para obtener el contexto
-    Activity activity;
-    // creacion de variable de tipo CommunicationInterface
-    CommunicationInterface ProductInterface;
-    ArrayList<Productos>ListaProductosEspejo;
     ArrayList<Storage> ListaStorage;
-    FragmentProducto detalleStore ;
+
 
 
     public FragmentStorage() {

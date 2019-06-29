@@ -1,6 +1,8 @@
 package com.android.store.mercapp.Entidades;
 
-public class Productos  {
+import java.io.Serializable;
+
+public class Productos implements Serializable {
     private  int Precio;
     private String Nombre, idproducto, idImageProducto;
 

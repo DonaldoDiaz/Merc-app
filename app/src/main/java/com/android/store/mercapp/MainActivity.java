@@ -1,13 +1,16 @@
 package com.android.store.mercapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.android.store.mercapp.Entidades.Productos;
 import com.android.store.mercapp.Entidades.Storage;
+import com.android.store.mercapp.Fragments.FragmentProductDetail;
 import com.android.store.mercapp.Fragments.FragmentProducto;
 import com.android.store.mercapp.Fragments.FragmentStorage;
+import com.android.store.mercapp.Interfaces.CommunicationInterface;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.facebook.AccessToken;
@@ -15,10 +18,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -47,7 +52,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         FragmentStorage.OnFragmentInteractionListener,
         FragmentProducto.OnFragmentInteractionListener,
-        ExampleDialog.DialogListener,ProductDialog.DialogListenerP{
+        FragmentProductDetail.OnFragmentInteractionListener,
+        ExampleDialog.DialogListener,ProductDialog.DialogListenerP, CommunicationInterface {
 
     FirebaseAuth mAuth;
     FirebaseUser currentUser;
@@ -56,6 +62,7 @@ public class MainActivity extends AppCompatActivity
     Fragment listastore = new FragmentStorage();
     FragmentProducto productoF = new FragmentProducto();
     public static String idtienda;
+    private  FloatingActionButton fab;
 
 
 
@@ -72,11 +79,14 @@ public class MainActivity extends AppCompatActivity
 
         getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor,listastore, "MAIN_FRAGMENT").commit();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
+
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 switch (optionSelected){
                     case 1:
                         Toast.makeText(getApplicationContext(), "TIENDAS", Toast.LENGTH_SHORT).show();
@@ -122,6 +132,9 @@ public class MainActivity extends AppCompatActivity
 
 
     }
+
+
+
     private void openDialogProductos() {
         ProductDialog productDialog = new ProductDialog();
         productDialog.show(getSupportFragmentManager(), "dialog");
@@ -141,6 +154,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -152,6 +166,7 @@ public class MainActivity extends AppCompatActivity
             }else{
                 getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor,listastore, "MAIN_FRAGMENT").commit();
                 optionSelected=1;
+
             }
             //MAIN_FRAGMENT
             //super.onBackPressed();
@@ -211,6 +226,7 @@ public class MainActivity extends AppCompatActivity
             fragment =new FragmentStorage();
             FragmentSelected=true;
             optionSelected=1;
+            fab.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_product) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -292,6 +308,20 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+
+
+
+    @Override
+    public void sendData(Productos productos) {
+        fab.setVisibility(View.INVISIBLE);
+        FragmentProductDetail productDetail = new FragmentProductDetail();
+        Bundle bundleP = new Bundle();
+        bundleP.putSerializable("objeto",productos);
+        productDetail.setArguments(bundleP);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.Contenedor,productDetail).addToBackStack(null).commit();
     }
 
 }

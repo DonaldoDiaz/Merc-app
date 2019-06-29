@@ -1,5 +1,7 @@
 package com.android.store.mercapp.Fragments;
 
+import android.app.Activity;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -55,6 +57,7 @@ public class FragmentProducto extends  Fragment  {
     Productos productos;
     String idTienda;
 
+
     StorageReference storageRef;
 
     private OnFragmentInteractionListener mListener;
@@ -62,6 +65,9 @@ public class FragmentProducto extends  Fragment  {
     public RecyclerView recyclerP;
     public ArrayList<Productos> productosArrayList;
     MainActivity activity;
+    Activity activityp;
+    View view;
+    CommunicationInterface anInterface;
     public FragmentProducto() {
     }
 
@@ -99,8 +105,11 @@ public class FragmentProducto extends  Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         vista = inflater.inflate(R.layout.fragment_detalle_store, container, false);
+
         return vista;
     }
+
+
 
 
     private void Renderlist() {
@@ -111,6 +120,13 @@ public class FragmentProducto extends  Fragment  {
         ProductosAdapter Adapter = new ProductosAdapter(productosArrayList);
         recyclerP.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerP.setAdapter(Adapter);
+        Adapter.setOnClickListenerP(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                anInterface.sendData(productosArrayList.get(recyclerP.getChildAdapterPosition(view)));
+
+            }
+        });
     }
 
 
@@ -142,6 +158,18 @@ public class FragmentProducto extends  Fragment  {
         });
 
     }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if (context instanceof Activity){
+            this.activityp = (Activity) context;
+            anInterface = (CommunicationInterface) this.activityp;
+        }
+    }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
